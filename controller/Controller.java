@@ -1,22 +1,24 @@
 package controller;
 
+import model.Book;
 import model.Bookshelf;
 import view.Viewer;
 import java.util.Scanner;
 
 public class Controller {
     private Viewer view;
+    private Bookshelf bookshelf;
 
-    public Controller() {
-        Bookshelf bookshelf = new Bookshelf();
-        bookshelf.generateBooks();
-        view = new Viewer(bookshelf);
+    public Controller(Viewer view, Bookshelf bookshelf) {
+        this.view = view;
+        this.bookshelf = bookshelf;
     }
 
     public void run() {
         int commandNum;
         Scanner in = new Scanner(System.in);
         String data = "";
+        Book[] books;
         while (true) {
             view.printMenu();
 
@@ -31,17 +33,19 @@ public class Controller {
                 break;
             }
 
-            if (commandNum >= 1 && commandNum <= 3) {
-                view.printMessage();
-                if (in.hasNext()) {
-                    data = in.nextLine();
+            if (commandNum >= 1 && commandNum <= 4) {
+                if (commandNum == 4) {
+                    books = bookshelf.getSortedBooks();
                 }
-                view.printResult(data, commandNum);
+                else {
+                    view.printMessage();
+                    if (in.hasNext()) {
+                        data = in.nextLine();
+                    }
+                    books = bookshelf.getBooks(data, commandNum);
+                }
+                view.printResult(books);
                 continue;
-            }
-
-            if (commandNum == 4) {
-                view.printSortedBooks();
             }
 
             view.printError();
