@@ -29,7 +29,7 @@ public class Bookshelf {
         return selectedBooks;
     }
 
-    public Book[] sort() {
+    public Book[] getSortedBooks() {
         Arrays.sort(books, new BookPublisherComparator());
         return books;
     }
